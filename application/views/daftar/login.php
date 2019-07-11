@@ -12,7 +12,7 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"></span>
-                                    <input type="text" class="form-control" name="username" autofocus id="username" placeholder="username" value="<?= set_value('username'); ?>" />
+                                    <input type="text" class="form-control" name="username" autocomplete="off" autofocus id="username" placeholder="username" value="<?= set_value('username'); ?>" />
                                 </div>
                                     <small id="emailHelp" class="form-text text-danger"><?= form_error('username'); ?></small>
                             </div>

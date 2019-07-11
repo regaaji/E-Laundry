@@ -31,10 +31,10 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="konfirmasi_password" class="col-md-4 col-form-label text-md-right">Konfirmasi Password</label>
+                                <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
                                 <div class="col-md-6">
-                                    <input type="password" id="konfirmasi_password" class="form-control" name="konfirmasi_password" placeholder="konfirmasi password" value="<?= set_value('konfirmasi_password'); ?>">
-                                    <small id="emailHelp" class="form-text text-danger"><?= form_error('konfirmasi_password'); ?></small>
+                                    <input type="email" id="email" class="form-control" name="email" placeholder="Email" value="<?= set_value('email'); ?>">
+                                    <small id="emailHelp" class="form-text text-danger"><?= form_error('email'); ?></small>
                                 </div>
                             </div>
 
@@ -56,9 +56,10 @@
                             </div>
                              <div class="form-group row">
                                 <div class="col-md-6">
-                                    <input type="hidden" class="form-control" id="usertype" placeholder="usertype" name="usertype" value="3">
+                                    <input type="hidden" class="form-control" id="role_id" placeholder="role_id" name="role_id" value="3">
+                                    <input type="hidden" class="form-control" id="owner_id" placeholder="owner_id" name="owner_id" value="5">
                                     <input type="hidden" class="form-control" id="is_active" placeholder="is_active" name="is_active" value="1">
-                                    <input type="hidden" class="form-control" id="gambar" placeholder="gambar" name="gambar" value="user.jpg">
+                                    <input type="hidden" class="form-control" id="image" placeholder="image" name="image" value="default.jpg">
                                 </div>
                             </div>
 

@@ -30,16 +30,7 @@
                                    <?= form_error('new_password1', '<small class="text-danger pl-3">', '</small>'); ?> 
                             </div>
                         </div>
-                           <div class="form-group">
-                            
-                            <div class="cols-sm-10">
-                                <div class="input-group">
-                                    <span class="input-group-addon"></span>
-                                    <input type="password" class="form-control" name="new_password2" id="new_password2" placeholder="Konfirmasi Password" />
-                                </div>
-                                 <?= form_error('new_password2', '<small class="text-danger pl-3">', '</small>'); ?>  
-                            </div>
-                        </div>
+                          
                         
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary login-button">Ubah</button><br>

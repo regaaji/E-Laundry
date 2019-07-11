@@ -16,6 +16,7 @@ class Cekpesan1 extends CI_Controller
 	{
 		$data['transaksi'] = $this->Express_model->get_all_transaksiWipe(); 
 		$data['tuntas'] = $this->Express_model->get_all_tuntas(); 
+	
 		$data['judul'] = 'E-Laundry | Layanan[Kiloan]';
 
 		$this->load->view('templates/header', $data);

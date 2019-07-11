@@ -20,10 +20,11 @@
 
 					<form action="" method="post">
 						<input type="hidden" value="<?= $edit['id_produk'] ?>" name="id_produk">
-						<input type="hidden" value="<?= $edit['nama_produk']; ?>" name="nama_produk">
+						<input type="hidden" value="<?= $edit['nama']; ?>" name="nama">
 						<input type="hidden" value="<?= $edit['harga']; ?>" name="harga">
 						<input type="hidden" value="<?= $edit['gambar']; ?>" name="gambar">
 						<input type="hidden" value="<?= $edit['owner_id']; ?>" name="owner_id">
+						<input type="hidden" value="<?= $edit['user_id']; ?>" name="user_id">
 						<select name="status_barang_id" class="form-control">
 							<option value="1">Di izinkan</option>
 							<option value="2">Di tolak</option>

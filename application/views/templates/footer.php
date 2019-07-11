@@ -32,12 +32,13 @@
       <h4 class="text-white mt-5">Tentang Kami</h4>
       <p class="text-white mt-4 footer-left-1"><a href="#"><i class="fa fa-map-marker" style="color: #007bff; padding-right: 10px;"></i>Karangan, Trenggalek</a></p>
       <p class="text-white footer-left-1"><a href="#"><i class="fa fa-phone" style="color: #007bff; padding-right: 10px;"></i>085235149501</a></p>
-      <p class="text-white footer-left-1"><a href="#"><i class="fa fa-envelope" style="color: #007bff; padding-right: 10px;"></i>e-laundry@gmail.com</a></p>
+      <p class="text-white footer-left-1"><a href="#"><i class="fa fa-envelope" style="color: #007bff; padding-right: 10px;"></i>e-laundry@email.com</a></p>
     </div>
     <div class="col-md-3">
       <h4 class="text-white mt-5">Kategori</h4>
       <p class="text-white mt-4 footer-left"><a href="#">Home</a></p>
       <p class="text-white footer-left"><a href="#">Tentang Kami</a></p>
+      <p class="text-white footer-left"><a href="#">Layanan</a></p>
       <p class="text-white footer-left"><a href="#">Daftar</a></p>
       <p class="text-white footer-left"><a href="#">Masuk</a></p>
     </div>
@@ -76,12 +77,14 @@
 <!-- Optional JavaScript -->
 <script src="<?= base_url(); ?>assets/js/jquery-3.3.1.min.js"></script>
 <script src="<?= base_url(); ?>assets/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <!-- sweetalert -->
 <script src="<?= base_url(); ?>assets/js/sweetalert2.all.min.js"></script>
 <script src="<?= base_url(); ?>assets/js/mysweet.js"></script>
 <script type="text/javascript" src="<?= base_url(); ?>assets/DataTables/datatables.min.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI98lHacZgM9WB1k105dIgSqeVD7KJDGM&callback=initMap"></script>
 <script>
           function validasiFile(){
         var inputFile = document.getElementById('kenek');
@@ -226,118 +229,86 @@
       })
 </script>
 <script>
-  // This example requires the Places library. Include the libraries=places
-  // parameter when you first load the API. For example:
-  // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+    // New York
+    var startlat = -8.13593475;
+    var startlon = 111.64019830;
 
-  function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: {
-        lat: -8.050000,
-        lng: 111.710000
-      },
-      zoom: 8
-    });
-    var card = document.getElementById('pac-card');
-    var input = document.getElementById('pac-input');
-    var types = document.getElementById('type-selector');
-    var strictBounds = document.getElementById('strict-bounds-selector');
-
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
-
-    var autocomplete = new google.maps.places.Autocomplete(input);
-
-    // Bind the map's bounds (viewport) property to the autocomplete object,
-    // so that the autocomplete requests use the current map bounds for the
-    // bounds option in the request.
-    autocomplete.bindTo('bounds', map);
-
-    // Set the data fields to return when the user selects a place.
-    autocomplete.setFields(
-      ['address_components', 'geometry', 'icon', 'name']);
-
-    var infowindow = new google.maps.InfoWindow();
-    var infowindowContent = document.getElementById('infowindow-content');
-    infowindow.setContent(infowindowContent);
-    var marker = new google.maps.Marker({
-      map: map,
-      anchorPoint: new google.maps.Point(0, -29)
-    });
-
-    autocomplete.addListener('place_changed', function() {
-      infowindow.close();
-      marker.setVisible(false);
-      var place = autocomplete.getPlace();
-      if (!place.geometry) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
-        window.alert("No details available for input: '" + place.name + "'");
-        return;
-      }
-
-      // If the place has a geometry, then present it on a map.
-      if (place.geometry.viewport) {
-        map.fitBounds(place.geometry.viewport);
-      } else {
-        map.setCenter(place.geometry.location);
-        map.setZoom(17); // Why 17? Because it looks good.
-      }
-      marker.setPosition(place.geometry.location);
-      marker.setVisible(true);
-
-      var item_Lat = place.geometry.location.lat()
-      var item_Lng = place.geometry.location.lng()
-      var item_Location = place.name;
-      //alert(item_Location);
-      $("#lat").val(item_Lat);
-      $("#lng").val(item_Lng);
-      $("#location").val(item_Location);
-     
-
-
-      var address = '';
-      if (place.address_components) {
-        address = [
-          (place.address_components[0] && place.address_components[0].short_name || ''),
-          (place.address_components[1] && place.address_components[1].short_name || ''),
-          (place.address_components[2] && place.address_components[2].short_name || '')
-        ].join(' ');
-      }
-
-      infowindowContent.children['place-icon'].src = place.icon;
-      infowindowContent.children['place-name'].textContent = place.name;
-      infowindowContent.children['place-address'].textContent = address;
-      infowindow.open(map, marker);
-    });
-
-
-
-    // Sets a listener on a radio button to change the filter type on Places
-    // Autocomplete.
-    function setupClickListener(id, types) {
-      var radioButton = document.getElementById(id);
-      radioButton.addEventListener('click', function() {
-        autocomplete.setTypes(types);
-      });
+    var options = {
+     center: [startlat, startlon],
+     zoom: 9
     }
 
-    setupClickListener('changetype-all', []);
-    setupClickListener('changetype-address', ['address']);
-    setupClickListener('changetype-establishment', ['establishment']);
-    setupClickListener('changetype-geocode', ['geocode']);
+    document.getElementById('lat').value = startlat;
+    document.getElementById('lon').value = startlon;
 
-    document.getElementById('use-strict-bounds')
-      .addEventListener('click', function() {
-        console.log('Checkbox clicked! New state=' + this.checked);
-        autocomplete.setOptions({
-          strictBounds: this.checked
-        });
-      });
+    var map = L.map('map', options);
+    var nzoom = 12;
 
-      google.maps.event.addDomListener(window, 'load', setupClickListener);
-  }
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: 'OSM'}).addTo(map);
+
+    var myMarker = L.marker([startlat, startlon], {title: "Coordinates", alt: "Coordinates", draggable: true}).addTo(map).on('dragend', function() {
+     var lat = myMarker.getLatLng().lat.toFixed(8);
+     var lon = myMarker.getLatLng().lng.toFixed(8);
+     var czoom = map.getZoom();
+     if(czoom < 18) { nzoom = czoom + 2; }
+     if(nzoom > 18) { nzoom = 18; }
+     if(czoom != 18) { map.setView([lat,lon], nzoom); } else { map.setView([lat,lon]); }
+     document.getElementById('lat').value = lat;
+     document.getElementById('lon').value = lon;
+     myMarker.bindPopup("Lat " + lat + "<br />Lon " + lon).openPopup();
+    });
+
+    function chooseAddr(lat1, lng1)
+    {
+     myMarker.closePopup();
+     map.setView([lat1, lng1],18);
+     myMarker.setLatLng([lat1, lng1]);
+     lat = lat1.toFixed(8);
+     lon = lng1.toFixed(8);
+     document.getElementById('lat').value = lat;
+     document.getElementById('lon').value = lon;
+     myMarker.bindPopup("Lat " + lat + "<br />Lon " + lon).openPopup();
+    }
+
+    function myFunction(arr)
+    {
+     var out = "<br />";
+     var i;
+
+     if(arr.length > 0)
+     {
+      for(i = 0; i < arr.length; i++)
+      {
+       out += "<div class='address' title='Show Location and Coordinates' onclick='chooseAddr(" + arr[i].lat + ", " + arr[i].lon + ");return false;'>" + arr[i].display_name + "</div>";
+     }
+     document.getElementById('results').innerHTML = out;
+    }
+    else
+    {
+      document.getElementById('results').innerHTML = "Sorry, no results...";
+    }
+
+    }
+
+    function addr_search()
+    {
+     var inp = document.getElementById("addr");
+     var xmlhttp = new XMLHttpRequest();
+     var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + inp.value;
+     xmlhttp.onreadystatechange = function()
+     {
+       if (this.readyState == 4 && this.status == 200)
+       {
+        var myArr = JSON.parse(this.responseText);
+        myFunction(myArr);
+      }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+    }
+  
 </script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI98lHacZgM9WB1k105dIgSqeVD7KJDGM&libraries=places&callback=initMap" async defer></script>
+
 
 
 
@@ -404,67 +375,67 @@
 
 <script>
   // Initial Ratings
-  const ratings = {
-    sony: 4.5,
-    samsung: 3.4,
-    vizio: 2.3,
-    panasonic: 3.6,
-    phillips: 4.1
-  }
+  // const ratings = {
+  //   sony: 4.5,
+  //   samsung: 3.4,
+  //   vizio: 2.3,
+  //   panasonic: 3.6,
+  //   phillips: 4.1
+  // }
 
-  // Total Stars
-  const starsTotal = 5;
+  // // Total Stars
+  // const starsTotal = 5;
 
-  // Run getRatings when DOM loads
-  document.addEventListener('DOMContentLoaded', getRatings);
+  // // Run getRatings when DOM loads
+  // document.addEventListener('DOMContentLoaded', getRatings);
 
-  // Form Elements
-  const productSelect = document.getElementById('product-select');
-  const ratingControl = document.getElementById('rating-control');
+  // // Form Elements
+  // const productSelect = document.getElementById('product-select');
+  // const ratingControl = document.getElementById('rating-control');
 
-  // Init product
-  let product;
+  // // Init product
+  // let product;
 
-  // Product select change
-  productSelect.addEventListener('change', (e) => {
-    product = e.target.value;
-    // Enable rating control
-    ratingControl.disabled = false;
-    ratingControl.value = ratings[product];
-  });
+  // // Product select change
+  // productSelect.addEventListener('change', (e) => {
+  //   product = e.target.value;
+  //   // Enable rating control
+  //   ratingControl.disabled = false;
+  //   ratingControl.value = ratings[product];
+  // });
 
-  // Rating control change
-  ratingControl.addEventListener('blur', (e) => {
-    const rating = e.target.value;
+  // // Rating control change
+  // ratingControl.addEventListener('blur', (e) => {
+  //   const rating = e.target.value;
 
-    // Make sure 5 or under
-    if (rating > 5) {
-      alert('Please rate 1 - 5');
-      return;
-    }
+  //   // Make sure 5 or under
+  //   if (rating > 5) {
+  //     alert('Please rate 1 - 5');
+  //     return;
+  //   }
 
-    // Change rating
-    ratings[product] = rating;
+  //   // Change rating
+  //   ratings[product] = rating;
 
-    getRatings();
-  });
+  //   getRatings();
+  // });
 
-  // Get ratings
-  function getRatings() {
-    for (let rating in ratings) {
-      // Get percentage
-      const starPercentage = (ratings[rating] / starsTotal) * 100;
+  // // Get ratings
+  // function getRatings() {
+  //   for (let rating in ratings) {
+  //     // Get percentage
+  //     const starPercentage = (ratings[rating] / starsTotal) * 100;
 
-      // Round to nearest 10
-      const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
+  //     // Round to nearest 10
+  //     const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
 
-      // Set width of stars-inner to percentage
-      document.querySelector(`.${rating} .stars-inner`).style.width = starPercentageRounded;
+  //     // Set width of stars-inner to percentage
+  //     document.querySelector(`.${rating} .stars-inner`).style.width = starPercentageRounded;
 
-      // Add number rating
-      document.querySelector(`.${rating} .number-rating`).innerHTML = ratings[rating];
-    }
-  }
+  //     // Add number rating
+  //     document.querySelector(`.${rating} .number-rating`).innerHTML = ratings[rating];
+  //   }
+  // }
 </script>
 
 

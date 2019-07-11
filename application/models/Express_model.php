@@ -1,14 +1,36 @@
-<?php 
+ <?php 
 
 /**
  * 
  */
 class Express_model extends CI_Model
 {
+
+	public function countAllProduk()
+	{
+		return $this->db->get('tbl_produk')->num_rows();
+	}
+
+
+	public function getProduk($limit, $start)
+	{
+		// $query = $this->db->query("SELECT * FROM tbl_produk INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id_owner", $limit, $start);
+		// return $query->result_array();
+
+		$this->db->select('*');
+		$this->db->from('tbl_produk');
+		$this->db->join('tbl_owner','tbl_produk.owner_id = tbl_owner.id_owner');
+		$this->db->limit($limit, $start);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function cetakpdfbasic($id)
 	{
 		return $this->db->get_where('tb_transaksiBasic', ['id' => $id])->row_array();
 	}
+
+
 
 	public function cetakpdf1($id)
 	{
@@ -174,19 +196,6 @@ class Express_model extends CI_Model
 	}
 
 
-	public function getAllPesan()
-	{
-		$query = $this->db->query("SELECT * FROM tbl_transaksi WHERE owner_id = 1");
-		$total = $query->num_rows();
-		return $total;
-	}
-
-	public function getAllCount()
-	{
-		$query = $this->db->query("SELECT * FROM tbl_transaksi WHERE owner_id = 2");
-		$total = $query->num_rows();
-		return $total;
-	}
 
 	public function getByBasicId($id)
 	{
@@ -224,12 +233,12 @@ class Express_model extends CI_Model
 	}
 
 	function get_all_transaksiWipe(){
-		 $query = $this->db->query("SELECT * FROM tbl_transaksi INNER JOIN tbl_user ON tbl_transaksi.user_id = tbl_user.id INNER JOIN tbl_status ON tbl_transaksi.status_id = tbl_status.id WHERE status_id != 9 AND owner_id = 1");
+		 $query = $this->db->query("SELECT * FROM tbl_transaksi INNER JOIN user ON tbl_transaksi.user_id = user.id INNER JOIN tbl_status ON tbl_transaksi.status_id = tbl_status.id_status WHERE status_id != 9");
 		 return $query->result_array();
 	}
 
 	function get_all_tuntas(){
-		 $query = $this->db->query("SELECT * FROM tbl_transaksi INNER JOIN tbl_user ON tbl_transaksi.user_id = tbl_user.id INNER JOIN tbl_status ON tbl_transaksi.status_id = tbl_status.id WHERE status_id = 9 AND owner_id = 1");
+		 $query = $this->db->query("SELECT * FROM tbl_transaksi INNER JOIN user ON tbl_transaksi.user_id = user.id INNER JOIN tbl_status ON tbl_transaksi.status_id = tbl_status.id_status WHERE status_id = 9");
 		 return $query->result_array();
 	}
 
@@ -245,10 +254,20 @@ class Express_model extends CI_Model
 		 return $query = $this->db->get('tb_transaksiEssi')->result_array();
 	}
 
+	function getJumlah($id_owner)
+	{
+		$this->db->select('owner_id');
+		$this->db->from('tbl_transaksi');
+		$this->db->where(['owner_id'=> $id_owner]);
+		return $this->db->get()->num_rows();
+		// $query = $this->db->query("SELECT COUNT(owner_id) FROM `tbl_transaksi` WHERE owner_id = $id_owner");
+		// return $query->num_rows();
+	}
+
 
 	
 	function get_all_produkbasic(){
-		$query = $this->db->query("SELECT * FROM `tbl_produk` INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id INNER JOIN tbl_status_barang ON tbl_produk.status_barang_id = tbl_status_barang.id  WHERE owner_id = 3 AND status_barang_id = 1");
+		$query = $this->db->query("SELECT * FROM `produk` INNER JOIN tbl_owner ON produk.owner_id = tbl_owner.id_owner INNER JOIN tbl_status_barang ON produk.status_barang_id = tbl_status_barang.id  WHERE owner_id = 3 AND status_barang_id = 1");
         return $query->result_array();
 	}
 
@@ -263,9 +282,30 @@ class Express_model extends CI_Model
 	}
 
 
-	function get_all_produkwipe(){
-		$query = $this->db->query("SELECT * FROM `tbl_produk` WHERE owner_id = 1 AND status_barang_id = 1 ");
-        return $query->result_array();
+	function get_detail_produk($id_owner){
+		$data = [
+			'produk.owner_id'  => $id_owner,
+			'produk.status_barang_id' => 1
+		];
+		$this->db->select('*');
+		$this->db->from('produk');
+		$this->db->where($data);
+		return $this->db->get()->result_array();
+		// $query = $this->db->query("SELECT * FROM tbl_produk INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id_owner WHERE id_owner= '$id_owner'");
+		// return $query->row_array();
+	}
+
+	public function getDetailById($id_owner)
+	{
+		$data = [
+			'produk.owner_id'  => $id_owner
+		];
+		$this->db->select('*');
+		$this->db->from('produk');
+		$this->db->where($data);
+		$this->db->join('tbl_owner','produk.owner_id = tbl_owner.id_owner');
+
+		return $this->db->get()->row_array();
 	}
 
 	function get_all_produkessii(){

@@ -19,7 +19,7 @@
                         </div>
                         <div class="col-md-6">
                           
-                      <div id="googleMap" style="width:100%;height:380px;"></div>
+                       <div id="mapid" style="width:100%;height:380px;"></div>
                         </div>
                       </div>
                      
@@ -77,71 +77,19 @@
         </div>
       <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI98lHacZgM9WB1k105dIgSqeVD7KJDGM&libraries=places&callback=initMap" async defer></script>
         
+      
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI98lHacZgM9WB1k105dIgSqeVD7KJDGM&libraries=places&callback=initMap" async defer></script>
+        
         <script>
-       function initMap() {
-         
-        // membuat objek untuk titik koordinat
-        var lat = '<?= $lat ?>';
-        var lng = '<?= $lng ?>';
-        var lombok = {lat: <?= $lat ?>, lng: <?= $lng ?>};
-        
-        // membuat objek peta
-        var map = new google.maps.Map(document.getElementById('googleMap'), {
-          zoom: 9,
-          center: lombok
-        });
-
-        // mebuat konten untuk info window
-        var contentString = lombok;
-
-        // membuat objek info window
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString,
-          position: lombok
-        });
-        
-        // membuat marker
-        var marker = new google.maps.Marker({
-          position: lombok,
-          map: map,
-        });
-        
-        // event saat marker diklik
-        marker.addListener('click', function() {
-          // tampilkan info window di atas marker
-          infowindow.open(map, marker);
-        });
-        
-      }
-
-
-      // var marker;
-
-      // function initMap() {
-
-      //   var lat = '<?= $lat ?>';
-      //   var lng = '<?= $lng ?>';
-      //   var map = new google.maps.Map(document.getElementById('googleMap'), {
-      //     zoom: 13,
-      //     center: {lat: <?= $lat ?>, lng: <?= $lng ?>}
-      //   });
-
-      //   marker = new google.maps.Marker({
-      //     map: map,
-      //     draggable: true,
-      //     animation: google.maps.Animation.DROP,
-      //     position: {lat: <?= $lat ?>, lng: <?= $lng ?>}
-      //   });
-      //   marker.addListener('click', toggleBounce);
-      // }
-
-      // function toggleBounce() {
-      //   if (marker.getAnimation() !== null) {
-      //     marker.setAnimation(google.maps.Animation.BOUNCE);
-      //   } else {
-      //     marker.setAnimation(null);
-      //   }
-      // }
+         var map = L.map('mapid').setView([<?= $lat; ?>, <?= $lng; ?>], 11);
+         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+          maxZoom: 18,
+          id: 'mapbox.streets',
+          accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
+        }).addTo(map);
+         L.marker([<?= $lat; ?>, <?= $lng; ?>]).addTo(map)
+         .openPopup();
         </script>
       </div>
 

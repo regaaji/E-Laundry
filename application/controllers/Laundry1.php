@@ -8,12 +8,12 @@ class Laundry1 extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Express_model');
     }
-    public function index()
+    public function index($id_owner)
     {
         $data['judul'] = 'E-Laundry | Layanan[Satuan]';
 
         
-        $data['sepatu'] = $this->Express_model->get_all_produkwipe();
+        $data['detail'] = $this->Express_model->get_detail_produk($id_owner);
         $data['waktuA'] = ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00']; 
 
         $this->form_validation->set_rules('tanggal_jemput', 'Tanggal Penjemputan', 'required');
@@ -23,7 +23,7 @@ class Laundry1 extends CI_Controller
         $this->form_validation->set_rules('harga', 'Harga', 'required');
         $this->form_validation->set_rules('lat', 'Tempat Lat', 'required');
         $this->form_validation->set_rules('lng', 'Tempat Lng', 'required');
-        $this->form_validation->set_rules('location', 'Lokasi', 'required');
+        $this->form_validation->set_rules('location', 'Lokasi', 'required'); 
 
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('templates/header', $data);

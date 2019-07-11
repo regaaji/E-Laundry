@@ -10,7 +10,7 @@
           <!-- Page Heading -->
           <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
-          <div class="row mt-5">
+          <div class="row mt-5 mb-5">
           	<div class="col-lg-8">
                    <?php if($this->session->flashdata('message')) : ?>
                     <div class="alert alert-success"><?= $this->session->flashdata('message'); ?></div>
@@ -24,6 +24,7 @@
           							<th scope="col">#</th>
                         <th scope="col">Nama</th>
           							<th scope="col">Username</th>
+                        <th scope="col">Email</th>
                         <th scope="col">Telepon</th>
                         <th scope="col">Alamat</th>
                         <th scope="col">Action</th>
@@ -36,6 +37,7 @@
           							<th scope="row"><?= $i; ?></th>
                         <th><?= $kr['nama']; ?></th>
           							<td><?= $kr['username']; ?></td>
+                        <td><?= $kr['email']; ?></td>
                         <td><?= $kr['telepon']; ?></td>
                         <td><?= $kr['alamat']; ?></td>
                         <td>

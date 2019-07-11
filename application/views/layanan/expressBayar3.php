@@ -59,7 +59,7 @@
                 </div>
                 <div class="col">
                   <p class="font-weight-bold">Nama Brand Laundry</p>
-                  <p class="badge badge-warning" style="font-size: 20px;">Wipe</p>
+                  <p class="badge badge-warning" style="font-size: 20px;"><?= $this->session->userdata('nama_owner'); ?></p>
                 </div>
               </div>
               <div class="row mt-3">
@@ -76,8 +76,8 @@
                   <input type="hidden" name="user_id" value="<?= $this->session->userdata('id'); ?>">
                   <input type="hidden" name="harga" value="<?= $this->session->userdata('harga'); ?>">
                   <input type="hidden" name="tipe" value="keri">
-                  <input type="hidden" name="bukti" value="keri">
-                  <input type="hidden" name="owner_id" value="1">
+                  <input type="hidden" name="bukti" value="sah">
+                  <input type="hidden" name="owner_id" value="<?= $this->session->userdata('owner_id'); ?>">
                 </div>
               
 

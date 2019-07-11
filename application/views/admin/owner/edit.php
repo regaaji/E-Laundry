@@ -20,8 +20,8 @@
 							<input type="hidden" name="status_barang_id" value="<?= $edit['status_barang_id']; ?>">
 							<div class="form-group">
 								<label for="nama">Nama</label>
-								<input type="text" class="form-control" id="nama" name="nama_produk" value="<?= $edit['nama_produk']; ?>">
-								<?= form_error('nama_produk', '<small class="text-danger pl-3">', '</small>'); ?>
+								<input type="text" class="form-control" id="nama" name="nama" value="<?= $edit['nama']; ?>">
+								<?= form_error('nama', '<small class="text-danger pl-3">', '</small>'); ?>
 							</div>
 							<div class="form-group">
 								<label for="harga">Harga</label>

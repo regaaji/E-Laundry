@@ -27,7 +27,7 @@ class ExpressBayar3 extends CI_Controller
 		$this->form_validation->set_rules('tipe', 'Tipe', 'required');
 		$this->form_validation->set_rules('lng', 'LNG', 'required');
 		$this->form_validation->set_rules('lat', 'LAT', 'required');
-		$this->form_validation->set_rules('bukti', 'LAT', 'required');
+		$this->form_validation->set_rules('bukti', 'bukti', 'required');
 
 		if( $this->form_validation->run() === FALSE ){	
 			$this->load->view('templates/header', $data);

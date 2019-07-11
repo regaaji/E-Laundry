@@ -7,8 +7,7 @@
   <div class="carousel-inner" role="listbox">
     <div class="carousel-item active" data-src="<?= base_url(); ?>assets/img/laundry1.jpg">
       <div class="carousel-caption">
-        <h2 class="font-weight-bold animated wobble" style="animation-duration: 1s;">Wipe</h2>
-        <!-- <p class="animated wobble" style="animation-duration: 1s;">Kemang 89 2nd Floor, Jl. Kemang Raya No. 89</p> -->
+        <h2 class="font-weight-bold animated wobble" style="animation-duration: 1s;"><?= $rinci['nama_owner'] ?></h2>
       </div>
     </div>
     <div class="carousel-item" data-src="<?= base_url(); ?>assets/img/laundry1a.jpg">
@@ -34,58 +33,64 @@
 
   <div class="row">
 
-    <!-- Blog Entries Column -->
     <div class="col-md-8">
+          
+          <h1 class="my-4 text-primary animated lightSpeedIn" style="animation-duration: 1s;"><img src="<?= base_url(); ?>assets/img/laundry_service.png" alt="" width="50px" height="50px">Jasa Laundry </h1>
 
-      <h1 class="my-4 text-primary animated lightSpeedIn" style="animation-duration: 1s;"><img src="<?= base_url(); ?>assets/img/laundry_service.png" alt="" width="50px" height="50px">Wipe </h1>
+          <!-- Blog Post -->
+          <div class="card mb-4">
+            
+            <div class="card-body">
 
-      <!-- Blog Post -->
-      <div class="card mb-4">
+                <img class="float-right animated bounceInDown" src="<?= base_url(); ?>assets/img/laundry_service.png" width="50" style="animation-duration: 2s;">
+              
+                <h2 class="card-title text-primary animated bounceInDown" style="animation-duration: 2s;"><?= $rinci['nama_owner'] ?> <span class="badge badge-primary" style="font-size: 20px;"><i class="fa fa-user pr-1"></i> <?= $jumlah ?> / <?= $rinci['isi'] ?></span></h2>
+                <hr>
+        
 
-        <div class="card-body">
-          <img class="float-right animated bounceInDown" src="<?= base_url(); ?>assets/img/icon-layanan/sepatu.png" width="50" style="animation-duration: 2s;">
-
-          <h2 class="card-title text-primary animated bounceInDown" style="animation-duration: 2s;">Perawatan Sepatu</h2>
-          <hr>
-
+        
           <!-- isi -->
-          <div class="mt-5">
-                        <label class="product-image"></label>
-                        <label class="product-details"></label>
-                        <label class="product-price font-weight-bold">Total</label>
-                        <label class="product-quantity font-weight-bold">Quantity</label>
-                        <label class="product-line-price font-weight-bold" style="margin-left: -10px;"></label>
-                    </div>
-                    <br><br>
-                    <?php foreach ($sepatu as $se) : ?>
-                        <div class="product">
-                            <div class="product-image">
-                                <img class="rounded-circle" src="<?= base_url(); ?>assets/img/wipe/<?= $se['gambar']; ?>">
-                            </div>
+           <div class="mt-5">
+            <label class="product-image"></label>
+            <label class="product-rincis"></label>
+            <label class="product-price font-weight-bold">Total</label>
+            <label class="product-quantity font-weight-bold">Quantity</label>
+            <label class="product-line-price font-weight-bold" style="margin-left: -10px;"></label>
+          </div>
+          <br><br>
+        
+        <?php foreach ($detail as $d) :?>
+            <div class="product">
+              <div class="product-image">
+              <img class="rounded-circle" src="<?= base_url(); ?>assets/img/<?= $d['gambar']; ?>">
+            
+              </div>
 
-                            
-                        
- 
-                        <div class="price-row">
-                            <span class="minus-plus-input">
-                                <input type='button' value='-' class='qtyminus btn btn-primary float-right ml-2' field='quantity' />
-                                <input type='text' name='quantity' value='0' class='qty float-right' size="10" />
-                                <input type='button' value='+' class='qtyplus btn btn-primary float-right mr-2' field='quantity' />
+          
 
-                                <div class="total-price float-right mr-4">Rp 0</div>
 
-                            </span>
-                            <br><br>
-                            <span class="error text-danger float-right pr-5" style="display: none;">Harus Angka</span>
-                            <div class="price" style="display: none;"><?= $se['harga']; ?></div>
-                            <div class="tampilnama" style="margin-top: -50px;"><?= $se['nama_produk']; ?></div>    
-                            <div class="tampilharga">Rp. <?= $se['harga']; ?></div>
-                        </div>
 
-                    </div>
-                    <!-- end product-->
-                    <?php endforeach; ?>
 
+              <div class="price-row">
+                <span class="minus-plus-input">
+                  <input type='button' value='-' class='qtyminus btn btn-primary float-right ml-2' field='quantity' />
+                  <input type='text' name='quantity' value='0' class='qty float-right' size="10" />
+                  <input type='button' value='+' class='qtyplus btn btn-primary float-right mr-2' field='quantity' />
+
+                  <div class="total-price float-right mr-4">Rp 0</div>
+
+                </span>
+                <br><br>
+                <span class="error text-danger float-right pr-5" style="display: none;">Harus Angka</span>
+                <div class="price" style="display: none;"><?= $d['harga']; ?></div>
+                <div class="tampilnama" style="margin-top: -50px;"><?= $d['nama']; ?></div>    
+                <div class="tampilharga">Rp. <?= $d['harga'] ?></div>
+              </div>
+
+            </div>
+            <!-- end product -->
+
+          <?php endforeach; ?>
 
 
               <form action="" method="post">
@@ -134,52 +139,60 @@
                         </div>
 
                         
-                        <input type="hidden" name="lat" id="lat">
-                        <input type="hidden" name="lng" id="lng">
-                        <input type="hidden" name="location" id="location">
-
+                        
                         <h2 class="card-title text-primary mt-5">Lokasi Anda</h2>
                         <hr>
-                        <input id="pac-input" class="form-control" type="text" placeholder="Enter a location">
-                        <br><br><br><br><br><br>
-                        <br><br>
-                        <br><br><br><br>
-                        <div id="map" class="img-fluid" style="width: 700px; height: 400px;"></div>
-                        <small id="emailHelp" class="form-text text-danger"><?= form_error('location'); ?></small>
-                        <div id="infowindow-content">
-                            <img src="" width="16" height="16" id="place-icon">
-                            <span id="place-name" class="title"></span><br>
-                            <span id="place-address"></span>
+                      
+                          <input type="hidden" name="lat" class="form-control" id="lat" size=12 value="">
+                          <input type="hidden" name="lng" class="form-control"  id="lon" size=12 value="">
+                          <input type="hidden" name="nama_owner" class="form-control"  value="<?= $rinci['nama_owner']; ?>">
+                          <input type="hidden" name="owner_id" class="form-control"  value="<?= $rinci['owner_id']; ?>">
+                    
+                        
+
+                     
+                        <div id="search"> 
+                          <div class="input-group">
+                            <input type="text" name="location" class="form-control" value="" id="addr" size="58"  />
+                            <div class="input-group-append">
+                              <button type="button" class="btn btn-primary btn-sm" onclick="addr_search();">Search</button>
+                            </div>
+                          </div>
+                          
+                              <div id="results"></div>
+                            
                         </div>
+
+                        <br />
+
+                        <div id="map" class="img-fluid mt-5" style="width: 700px; height: 400px;"></div>
                        
         </div>
 
 
-
-
-
-        <!-- <div class="row font-weight-bold" style="font-size: 20px;">
-              <div class="col-md-6">
-                <p class="ml-4">Harga Total</p>
-              </div>
-              <div class="col-md-6">
-                <p class="float-right text-primary" style="margin-right: 20px;">Rp. 50.000</p>
-              </div>
-            </div> -->
-        <?php if (isset($this->session->userdata['masuk_in'])) : ?>
-          <!-- <a href=""><button type="submit" class="btn btn-primary btn-lg float-right p-3  mt-4" style="margin-right: 20px;" name="lanjut">Lanjut<i class="fa fa-arrow-right" style="padding-left: 10px;"></i></button></a>
-
-                        <a href="<?= base_url() ?>layanan/index"><button type="button" class="btn btn-primary btn-lg float-left p-3 mb-5" style="margin-left: 20px; margin-top: -60px;" name="lanjut"><i class="fa fa-arrow-left" style="padding-right: 10px;"></i>Kembali</button></a> -->
+        <?php if($jumlah == $rinci['isi']) : ?>
 
           <div class="modal-footer">
             <a href="<?= base_url(); ?>layanan/index"><button type="button" class="btn btn-secondary"><i class="fa fa-arrow-left" style="padding-right: 10px;"></i>Kembali</button></a>
-            <button type="submit" class="btn btn-primary">Lanjut <i class="fa fa-arrow-right" style="padding-left: 10px;"></i></button>
+            <button type="button" class="btn btn-danger" onclick="njajal()">Penuh <i class="fas fa-close" style="padding-left: 10px;"></i></button>
           </div>
 
         <?php else : ?>
-          <a href="<?= base_url() ?>daftar/login"><button type="button" class="btn btn-primary btn-lg float-right p-3 mb-4 mt-4" style="margin-right: 20px;">Lanjut<i class="fa fa-arrow-right" style="padding-left: 10px;"></i></button></a>
 
-          <a href="<?= base_url() ?>layanan/index"><button type="button" class="btn btn-primary btn-lg float-left p-3 mb-5" style="margin-left: 20px; margin-top: -80px;" name="lanjut"><i class="fa fa-arrow-left" style="padding-right: 10px;"></i>Kembali</button></a>
+                <?php if (isset($this->session->userdata['masuk_in'])) : ?>
+              
+
+                <div class="modal-footer">
+                  <a href="<?= base_url(); ?>layanan/index"><button type="button" class="btn btn-secondary"><i class="fa fa-arrow-left" style="padding-right: 10px;"></i>Kembali</button></a>
+                  <button type="submit" class="btn btn-primary">Lanjut <i class="fa fa-arrow-right" style="padding-left: 10px;"></i></button>
+                </div>
+
+              <?php else : ?>
+                <a href="<?= base_url() ?>daftar/login"><button type="button" class="btn btn-primary btn-lg float-right p-3 mb-4 mt-4" style="margin-right: 20px;">Lanjut<i class="fa fa-arrow-right" style="padding-left: 10px;"></i></button></a>
+
+                <a href="<?= base_url() ?>layanan/index"><button type="button" class="btn btn-primary btn-lg float-left p-3 mb-5" style="margin-left: 20px; margin-top: -80px;" name="lanjut"><i class="fa fa-arrow-left" style="padding-right: 10px;"></i>Kembali</button></a>
+              <?php endif; ?>
+
         <?php endif; ?>
         </form>
       </div>

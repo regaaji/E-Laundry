@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Wipe extends CI_Controller
+class Owner extends CI_Controller
 {
     public function __construct()
     {
@@ -11,15 +11,15 @@ class Wipe extends CI_Controller
 
     public function index()
     {
-        $data['title'] = 'Wipe';
+        $data['title'] = 'Produk';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $this->load->model('Menu_model', 'menu');
-        $data['jumlah'] = $this->menu->getCountWipe();
-        $data['jumlahgagal'] = $this->menu->getCountWipeGagal();
-        $data['wipe'] = $this->menu->transaksiWipe();
-        $data['wipeGagal'] = $this->menu->transaksiWipeGagal();
+ 
+        $data['nama'] = $this->menu->namaProdukOwner();
+        $data['namagagal'] = $this->menu->namaProdukOwnerGagal();
+      
 
-        $this->form_validation->set_rules('nama_produk', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('harga', 'Harga', 'required|trim');
         //$this->form_validation->set_rules('gambar', 'Gambar', 'required|trim');
 
@@ -27,12 +27,12 @@ class Wipe extends CI_Controller
 
             $this->load->view('admin/templates/header', $data);
             $this->load->view('admin/templates/sidebar', $data);
-            $this->load->view('admin/templates/topbar', $data);
-            $this->load->view('admin/wipe/index', $data);
+            $this->load->view('admin/templates/atas', $data);
+            $this->load->view('admin/owner/index', $data);
             $this->load->view('admin/templates/footer');
         } else {
 
-            $config['upload_path']           = './assets/img/wipe';
+            $config['upload_path']           = './assets/img';
             $config['allowed_types']        = 'jpg|png';
             $config['max_size']             = 7000;
             $config['max_width']            = 2024;
@@ -46,7 +46,7 @@ class Wipe extends CI_Controller
                     $this->form_validation->set_rules('gambar', 'Gambar', 'required');
                     $error = array('error' => $this->upload->display_errors());
                             return var_dump($error);
-                    redirect('admin/wipe/index');
+                    redirect('admin/owner/index');
 
 
                 } else {
@@ -57,7 +57,7 @@ class Wipe extends CI_Controller
                       $this->session->set_flashdata('message', '
                     Tunggu proses pengecekan barang
                     ');
-                    redirect('admin/wipe/index');
+                    redirect('admin/owner/index');
                 } 
          }               
     }
@@ -66,9 +66,9 @@ class Wipe extends CI_Controller
     public function hapus($id_produk)
     {
         //$this->db->where('id', $id);
-        $this->db->delete('tbl_produk', ['id_produk' => $id_produk]);
+        $this->db->delete('produk', ['id_produk' => $id_produk]);
          $this->session->set_flashdata('message', 'Data Barang Dihapus');
-        redirect('admin/wipe/index');
+        redirect('admin/owner/index');
     }
 
 
@@ -83,15 +83,15 @@ class Wipe extends CI_Controller
 
          $data['title'] = 'Menu Edit';
 
-          $this->form_validation->set_rules('nama_produk', 'Nama', 'required|trim');
+          $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
           $this->form_validation->set_rules('harga', 'Harga', 'required|trim');
          // $this->form_validation->set_rules('gambar', 'Gambar', 'required|trim');
      
         if ($this->form_validation->run() == false) {
             $this->load->view('admin/templates/header', $data);
             $this->load->view('admin/templates/sidebar', $data);
-            $this->load->view('admin/templates/topbar', $data);
-            $this->load->view('admin/wipe/edit', $data);
+            $this->load->view('admin/templates/atas', $data);
+            $this->load->view('admin/owner/edit', $data);
             $this->load->view('admin/templates/footer');
         } else {
            $config['upload_path']           = './assets/img/wipe';
@@ -108,7 +108,7 @@ class Wipe extends CI_Controller
                     $this->form_validation->set_rules('gambar', 'Gambar', 'required');
                     $error = array('error' => $this->upload->display_errors());
                             return var_dump($error);
-                    redirect('admin/wipe/index');
+                    redirect('admin/owner/index');
 
                     //  $this->Barang_model->ubahDataBarang();
                     //  $this->session->set_flashdata('flash', 'Diubah');
@@ -119,7 +119,7 @@ class Wipe extends CI_Controller
 
                     $filename = $data['file_name'];
                     $this->menu->updatebarangwipe($id_produk, $filename);
-                    redirect('admin/wipe/index');
+                    redirect('admin/owner/index');
                 }
 
             } else {
@@ -128,7 +128,7 @@ class Wipe extends CI_Controller
                 $this->session->set_flashdata('message', '
                     Data berhasil diubah
                     ');
-            redirect('admin/wipe/index');
+            redirect('admin/owner/index');
             }
         }
     }
@@ -146,12 +146,12 @@ class Wipe extends CI_Controller
         //$this->db->where('id', $id);
         $this->db->delete('tbl_transaksi', ['id_transaksi' => $id_transaksi]);
          $this->session->set_flashdata('message', 'Data transaksi Dihapus');
-        redirect('admin/wipe/transaksi');
+        redirect('admin/owner/transaksi');
     }
 
     public function aksi($id_transaksi)
     {
-           $data['title'] = 'Wipe';
+           $data['title'] = 'Status';
            $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
            $this->load->model('Menu_model', 'menu');
            $data['aksi'] = $this->menu->get_all_transaksiWipe($id_transaksi);
@@ -161,8 +161,8 @@ class Wipe extends CI_Controller
        if ($this->form_validation->run() == false) {
            $this->load->view('admin/templates/header', $data);
            $this->load->view('admin/templates/sidebar', $data);
-           $this->load->view('admin/templates/topbar', $data);
-           $this->load->view('admin/wipe/aksi', $data);
+           $this->load->view('admin/templates/atas', $data);
+           $this->load->view('admin/owner/aksi', $data);
            $this->load->view('admin/templates/footer');
 
           } else {
@@ -187,7 +187,7 @@ class Wipe extends CI_Controller
               $this->session->set_flashdata('message', '
                     Data Transaksi Diubah
                     ');
-           redirect('admin/wipe/transaksi');
+           redirect('admin/owner/transaksi');
 
          }
     }
@@ -195,21 +195,20 @@ class Wipe extends CI_Controller
 
     public function transaksi()
     {
-       $data['title'] = 'Wipe';
+       $data['title'] = 'Transaksi';
        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $this->load->model('Menu_model', 'menu');
 
-        $data['total'] = $this->menu->getCountTransaksiWipe();
-       $data['transaksi'] = $this->menu->WipeTransaksi();
+       $data['transaksi'] = $this->menu->OwnerTransaksi();
 
        $this->form_validation->set_rules('status_id', 'Status', 'required|trim');
        
        if ($this->form_validation->run() == false) {
            $this->load->view('admin/templates/header', $data);
            $this->load->view('admin/templates/sidebar', $data);
-           $this->load->view('admin/templates/topbar', $data);
-           $this->load->view('admin/wipe/transaksi', $data);
+           $this->load->view('admin/templates/atas', $data);
+           $this->load->view('admin/owner/transaksi', $data);
            $this->load->view('admin/templates/footer');
 
        } else {

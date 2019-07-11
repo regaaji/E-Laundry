@@ -22,11 +22,11 @@ class Admin extends CI_Controller
         $data['owner'] = $this->menu->getCountOwner();
 
 
-        $data['kritik'] = $this->db->get('tb_pesan')->result_array();
+        //$data['kritik'] = $this->db->get('tb_pesan')->result_array();
 
         $this->load->view('admin/templates/header', $data);
         $this->load->view('admin/templates/sidebar', $data);
-        $this->load->view('admin/templates/topbar', $data);
+        $this->load->view('admin/templates/atas', $data);
         $this->load->view('admin/admin/index', $data);
         $this->load->view('admin/templates/footer', $data);
     }
@@ -66,14 +66,14 @@ class Admin extends CI_Controller
        }
     }
 
-    public function hapuskritik($id)
+    public function hapusproduk($id_produk)
     {
         //$this->db->where('id', $id);
-        $this->db->delete('tb_pesan', ['id' => $id]);
+        $this->db->delete('tbl_produk', ['id_produk' => $id_produk]);
          $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
                      Berhasil dihapus 
                     </div>');
-        redirect('admin/admin/index');
+        redirect('admin/admin/owner');
     }
 
 
@@ -170,7 +170,7 @@ class Admin extends CI_Controller
 
     public function customers()
     {
-
+ 
         $data['title'] = 'Customers';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -192,7 +192,7 @@ class Admin extends CI_Controller
 
             $this->load->view('admin/templates/header', $data);
             $this->load->view('admin/templates/sidebar', $data);
-            $this->load->view('admin/templates/topbar', $data);
+            $this->load->view('admin/templates/atas', $data);
             $this->load->view('admin/admin/customers', $data);
             $this->load->view('admin/templates/footer');
 
@@ -216,10 +216,31 @@ class Admin extends CI_Controller
 
 
 
-     public function hapuscustomers($id)
+     public function hapusowner($id)
     {
         //$this->db->where('id', $id);
-        $this->db->delete('tbl_user', ['id' => $id]);
+        $this->db->delete('user', ['id' => $id]);
+         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                     Berhasil dihapus 
+                    </div>');
+        redirect('admin/admin/owner');
+    }
+
+    public function deleteowner($id_owner)
+    {
+        //$this->db->where('id', $id);
+        $this->db->delete('tbl_owner', ['id_owner' => $id_owner]);
+         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                     Berhasil dihapus 
+                    </div>');
+        redirect('admin/admin/owner');
+    }
+
+
+    public function hapuscustomers($id)
+    {
+        //$this->db->where('id', $id);
+        $this->db->delete('user', ['id' => $id]);
          $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
                      Berhasil dihapus 
                     </div>');
@@ -241,15 +262,14 @@ class Admin extends CI_Controller
 
             $this->form_validation->set_rules('nama', 'Nama', 'required');
             $this->form_validation->set_rules('username', 'Username', 'required');
-            $this->form_validation->set_rules('password', 'Password', 'required');
-            $this->form_validation->set_rules('konfirmasi_password', 'Konfirmasi Password', 'required');
+            $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('telepon', 'Telepon', 'required|numeric');
             $this->form_validation->set_rules('alamat', 'Alamat', 'required');
      
         if ($this->form_validation->run() == false) {
             $this->load->view('admin/templates/header', $data);
             $this->load->view('admin/templates/sidebar', $data);
-            $this->load->view('admin/templates/topbar', $data);
+            $this->load->view('admin/templates/atas', $data);
             $this->load->view('admin/admin/editcustomers', $data);
             $this->load->view('admin/templates/footer');
         } else {
@@ -258,17 +278,18 @@ class Admin extends CI_Controller
             'nama' => $this->input->post('nama', true),
             'username' => $this->input->post('username', true),
             'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-            'konfirmasi_password' => password_hash($this->input->post('konfirmasi_password'), PASSWORD_DEFAULT),
+            'email' => $this->input->post('email'),
             'telepon' => $this->input->post('telepon', true),
             'alamat' => $this->input->post('alamat', true),
-            'usertype' => $this->input->post('usertype', true),
+            'role_id' => $this->input->post('role_id', true),
+            'owner_id' => $this->input->post('owner_id', true),
             'is_active' => $this->input->post('is_active', true),
-            'gambar' => $this->input->post('gambar', true)
+            'image' => $this->input->post('image', true)
 
         ];  
 
         $this->db->where('id', $this->input->post('id',$id));
-        $this->db->update('tbl_user', $data);
+        $this->db->update('user', $data);
               $this->session->set_flashdata('message', '
                     Data Customers Diubah
                     ');
@@ -291,7 +312,7 @@ class Admin extends CI_Controller
 
         $this->load->view('admin/templates/header', $data);
         $this->load->view('admin/templates/sidebar', $data);
-        $this->load->view('admin/templates/topbar', $data);
+        $this->load->view('admin/templates/atas', $data);
         $this->load->view('admin/admin/owner', $data);
         $this->load->view('admin/templates/footer');
     }
@@ -306,18 +327,18 @@ class Admin extends CI_Controller
 
 
         $data['produk'] = $this->menu->pemilikProduk();
-        $data['produkessii'] = $this->menu->pemilikProdukEssii();
-        $data['produkbasic'] = $this->menu->pemilikProdukBasic();
+        //$data['produkessii'] = $this->menu->pemilikProdukEssii();
+        //$data['produkbasic'] = $this->menu->pemilikProdukBasic();
         
        $data['wipeGagal'] = $this->menu->transaksiWipeGagal();
-        $data['essiiGagal'] = $this->menu->transaksiEssiiGagal();
-        $data['basicGagal'] = $this->menu->transaksiBasicGagal();
+        //$data['essiiGagal'] = $this->menu->transaksiEssiiGagal();
+        //$data['basicGagal'] = $this->menu->transaksiBasicGagal();
 
 
 
         $this->load->view('admin/templates/header', $data);
         $this->load->view('admin/templates/sidebar', $data);
-        $this->load->view('admin/templates/topbar', $data);
+        $this->load->view('admin/templates/atas', $data);
         $this->load->view('admin/admin/produk', $data);
         $this->load->view('admin/templates/footer');
     }
@@ -337,23 +358,24 @@ class Admin extends CI_Controller
 
         $this->load->view('admin/templates/header', $data);
         $this->load->view('admin/templates/sidebar', $data);
-        $this->load->view('admin/templates/topbar', $data);
+        $this->load->view('admin/templates/atas', $data);
         $this->load->view('admin/admin/editproduk', $data);
         $this->load->view('admin/templates/footer');
 
         } else {
 
            $data = [
-            'nama_produk' => $this->input->post('nama_produk', true),
+            'nama' => $this->input->post('nama', true),
             'owner_id' => $this->input->post('owner_id', true),
             'harga' => $this->input->post('harga'),
             'gambar' => $this->input->post('gambar', true),
-            'status_barang_id' => $this->input->post('status_barang_id', true)
+            'status_barang_id' => $this->input->post('status_barang_id', true),
+            'user_id' => $this->input->post('user_id', true)
 
         ];  
 
         $this->db->where('id_produk', $this->input->post('id_produk',$id));
-        $this->db->update('tbl_produk', $data);
+        $this->db->update('produk', $data);
               $this->session->set_flashdata('message', '
                     Data berhasil diubah
                     ');
@@ -365,7 +387,7 @@ class Admin extends CI_Controller
     public function hapuswipe($id_produk)
     {
         //$this->db->where('id', $id);
-        $this->db->delete('tbl_produk', ['id_produk' => $id_produk]);
+        $this->db->delete('produk', ['id_produk' => $id_produk]);
          $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
                      Berhasil dihapus 
                     </div>');
@@ -391,6 +413,208 @@ class Admin extends CI_Controller
                      Berhasil dihapus 
                     </div>');
         redirect('admin/admin/produk');
+    }
+
+    public function tambahLaundry()
+    {
+        $data['title'] = 'Tambah Owner';
+      $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+      $this->load->model('Menu_model', 'menu');
+
+      $this->form_validation->set_rules('nama_owner', 'Nama Owner', 'required|trim');
+        $this->form_validation->set_rules('isi', 'Isi', 'required|trim');
+        //$this->form_validation->set_rules('gambar', 'Gambar', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+
+            $this->load->view('admin/templates/header', $data);
+            $this->load->view('admin/templates/sidebar', $data);
+            $this->load->view('admin/templates/atas', $data);
+            $this->load->view('admin/admin/tambahLaundry', $data);
+            $this->load->view('admin/templates/footer');
+        } else {
+
+            $config['upload_path']           = './assets/img';
+            $config['allowed_types']        = 'jpg|png';
+            $config['max_size']             = 7000;
+            $config['max_width']            = 2024;
+            $config['max_height']           = 2068;
+               // $config['overwrite'] = true;  
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            
+            
+                if (!$this->upload->do_upload('gambar')){
+                    $this->form_validation->set_rules('gambar_produk', 'Gambar', 'required');
+                    $error = array('error' => $this->upload->display_errors());
+                            return var_dump($error);
+                    redirect('admin/admin/owner');
+
+
+                } else {
+                    $data = $this->upload->data();
+
+                    $filename = $data['file_name'];
+                    $this->menu->addLaundry($filename);
+                      $this->session->set_flashdata('message', '
+                   Data berhasil ditambahkan
+                    ');
+                    redirect('admin/admin/owner');
+                } 
+         }         
+    }
+
+    public function tambahAkunLaundry()
+    {
+        $data['title'] = 'Tambah Akun Owner';
+      $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+      $this->load->model('Menu_model', 'menu');
+
+      $data['owner'] = $this->menu->pemilikOwner();
+      $data['akun'] = $this->menu->daftarAkun();
+
+         $this->form_validation->set_rules('nama', 'Nama', 'required');
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+        $this->form_validation->set_rules('telepon', 'Telepon', 'required|numeric');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+
+        if ($this->form_validation->run() == false) {
+
+            $this->load->view('admin/templates/header', $data);
+            $this->load->view('admin/templates/sidebar', $data);
+            $this->load->view('admin/templates/atas', $data);
+            $this->load->view('admin/admin/tambahAkunLaundry', $data);
+            $this->load->view('admin/templates/footer');
+        } else {
+
+            $data = [
+                'nama' => $this->input->post('nama', true),
+                'owner_id' => $this->input->post('owner_id', true),
+                'username' => $this->input->post('username', true),
+                'email' => $this->input->post('email', true),
+                'image' => $this->input->post('image', true),
+                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'telepon' => $this->input->post('telepon', true),
+                'alamat' => $this->input->post('alamat', true),
+                'role_id' => $this->input->post('role_id', true),
+                'is_active' => $this->input->post('is_active', true)
+            ];  
+
+            $this->db->insert('user', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Data ditambahkan 
+                </div>');
+            redirect('admin/admin/owner');
+        }
+                 
+    }
+
+    public function tambahTampilLaundry()
+    {
+        $data['title'] = 'Tambah Tampil Owner';
+      $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+      $this->load->model('Menu_model', 'menu');
+
+
+       $data['owner'] = $this->menu->pemilikOwner();
+      $data['akun'] = $this->menu->daftarAkun();
+      $data['tampil'] = $this->menu->daftarTampil();
+
+         $this->form_validation->set_rules('nama_produk', 'Nama Produk', 'required');
+        $this->form_validation->set_rules('user_id', 'User id', 'required');
+        $this->form_validation->set_rules('owner_id', 'Owner id', 'required');
+        $this->form_validation->set_rules('status_barang_id', 'Status Barang id', 'required|numeric');
+        $this->form_validation->set_rules('gambar', 'gambar', 'required');
+        $this->form_validation->set_rules('harga', 'harga', 'required');
+
+        if ($this->form_validation->run() == false) {
+
+            $this->load->view('admin/templates/header', $data);
+            $this->load->view('admin/templates/sidebar', $data);
+            $this->load->view('admin/templates/atas', $data);
+            $this->load->view('admin/admin/tambahTampilLaundry', $data);
+            $this->load->view('admin/templates/footer');
+        } else {
+
+            $data = [
+                'nama_produk' => $this->input->post('nama_produk', true),
+                'user_id' => $this->input->post('user_id', true),
+                'owner_id' => $this->input->post('owner_id', true),
+                'status_barang_id' => $this->input->post('status_barang_id', true),
+                'gambar' => $this->input->post('gambar', true),
+                'harga' => $this->input->post('harga', true)
+            ];  
+
+            $this->db->insert('tbl_produk', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Data ditambahkan 
+                </div>');
+            redirect('admin/admin/owner');
+        }
+                 
+    }
+
+
+    public function editLaundry($id_owner)
+    {
+        $data['title'] = 'Edit Owner';
+      $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+      $this->load->model('Menu_model', 'menu');
+
+      $data['edit'] = $this->menu->editLaundry($id_owner);
+
+      $this->form_validation->set_rules('nama_owner', 'Nama Owner', 'required|trim');
+        $this->form_validation->set_rules('isi', 'Isi', 'required|trim');
+        //$this->form_validation->set_rules('gambar', 'Gambar', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+
+            $this->load->view('admin/templates/header', $data);
+            $this->load->view('admin/templates/sidebar', $data);
+            $this->load->view('admin/templates/atas', $data);
+            $this->load->view('admin/admin/editLaundry', $data);
+            $this->load->view('admin/templates/footer');
+        } else {
+           $config['upload_path']           = './assets/img/';
+            $config['allowed_types']        = 'jpg|png';
+            $config['max_size']             = 7000;
+            $config['max_width']            = 2024;
+            $config['max_height']           = 2068;
+               // $config['overwrite'] = true;  
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+
+            if($_FILES ['gambar_produk']['name']){
+                if (!$this->upload->do_upload('gambar_produk')){
+                    $this->form_validation->set_rules('gambar_produk', 'Gambar', 'required');
+                    $error = array('error' => $this->upload->display_errors());
+                            return var_dump($error);
+              redirect('admin/admin/owner');
+
+                    //  $this->Barang_model->ubahDataBarang();
+                    //  $this->session->set_flashdata('flash', 'Diubah');
+                    // redirect('admin/barang/index');
+
+                } else {
+                    $data = $this->upload->data();
+
+                    $filename = $data['file_name'];
+                    $this->menu->updatelaundry($id_owner, $filename);
+                   redirect('admin/admin/owner');
+                }
+
+            } else {
+
+                $this->menu->ubahlaundry();
+                $this->session->set_flashdata('message', '
+                    Data berhasil diubah
+                    ');
+            redirect('admin/admin/owner');
+            }
+        }  
     }
 
 }

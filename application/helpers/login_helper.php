@@ -14,11 +14,14 @@ function is_logged_in()
 
         $menu_id = $queryMenu['id'];
         //var_dump($menu_id);
-        //die;
+        
         $userAccess = $ci->db->get_where('user_access_menu', [
             'role_id' => $role_id,
             'menu_id' => $menu_id
         ]);
+
+          //var_dump($userAccess);
+         
 
         
 

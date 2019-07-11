@@ -43,86 +43,32 @@
           <h2 class="card-title text-primary mt-5">Pilih Daftar Laundry</h2>
           <hr>
 
-          
+    
 
           <!-- isi -->
+          <?php foreach($produk as $p) : ?>
           <div class="row mt-5">
+            
             <div class="col-md-3">
-              <img src="<?= base_url(); ?>assets/img/icon-layanan/wipe.jpg" width="99.9" class="rounded-circle" alt="">
-              <h5 class="mt-3 ml-4">Wipe</h5>
-               <span class="badge badge-primary ml-3"><i class="fas fa-box-open"></i> <?= $jumlah; ?> / 15</span>
+              <img src="<?= base_url(); ?>assets/img/<?= $p['gambar_produk'] ?>" width="99.9" class="rounded-circle" alt="">
+              <h5 class="mt-3 ml-4"><?= $p['nama_owner']; ?></h5>
+              
             </div>
             <div class="col-md-3">
-              <h5 class="judul-icon">Wipe</h5>
-              <i class="flaticon-sneaker pr-2 icon1"></i><br>
-              <?php if($count == 15) : ?>
-              <button class="btn btn-danger mt-2 tombol-icon" onclick="njajal()">Penuh <i class="fa  fa-times-circle pl-1"></i></button>
-             <?php else : ?> 
-              <a href="<?= base_url(); ?>Laundry1"><button class="btn btn-primary mt-2 tombol-icon">Lihat <i class="fa fa-arrow-circle-right pl-2"></i></button></a>
-              <?php endif; ?>
+              <h5 class="judul-icon"><?= $p['nama_owner']; ?></h5>
+              
+              <a href="<?= base_url(); ?>layanan/laundry/<?= $p['id_owner'] ?>"><button class="btn btn-primary mt-2 tombol-icon">Lihat <i class="fa fa-arrow-circle-right pl-2"></i></button></a>
+        
             </div>
-            <div class="col-md-6">
-              <p class="float-right bintang">
-                <table>
-                  <tbody>
-                   <tr class="samsung">
-                    <!-- <td class="pr-2 tittle-star">Wipe</td> -->
-                    <td>
-                      <div class="stars-outer">
-                        <div class="stars-inner"></div>
-                      </div>
-                      <span class="number-rating"></span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </p>
-          </div>
-        </div>
-        <hr>
-        
-
-        
-        <div class="row mt-5">
-          <div class="col-md-3">
-            <img src="<?= base_url(); ?>assets/img/icon-layanan/essii.jpg" width="100" class="rounded-circle" alt="">
-            <h5 class="mt-3 ml-4">Essii</h5>
-           <span class="badge badge-primary ml-3"><i class="fas fa-box-open"></i> <?= $count; ?> / 10</span>
-          </div>
-          <div class="col-md-3">
-            <h5 class="judul-icon">Essii </h5>
-            <i class="flaticon-clean pr-2 icon1"></i>
-            <i class="flaticon-pillows pr-2 icon2"></i>
-            <i class="flaticon-backpack icon3"></i><br>
             
-            <?php if($jumlah == 10) : ?>
-              <button class="btn btn-danger mt-2 tombol-icon" onclick="njajal()">Penuh <i class="fa  fa-times-circle pl-1"></i></button>
-             <?php else : ?> 
-
-             <a href="<?= base_url(); ?>Laundry4"><button class="btn btn-primary mt-2 tombol-icon" >Lihat <i class="fa fa-arrow-circle-right pl-2"></i></button></a>
-            
-            <?php endif; ?>
-          </div>
-          <div class="col-md-6">
-            <p class="float-right bintang">
-              <table>
-                <tbody>
-                  <tr class="sony">
-                    <!-- <td class="pr-2 tittle-star">Essii</td> -->
-                    <td>
-                      <div class="stars-outer">
-                        <div class="stars-inner"></div>
-                      </div>
-                      <span class="number-rating"></span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </p>
-          </div>
         </div>
-      </a>
+      <?php endforeach; ?>
+      
+        
+        
       <hr>
+
+      <?= $this->pagination->create_links(); ?>
 
           <!--     <h2 class="card-title text-primary mt-5">Pilih Rating Laundry</h2>
               <hr>

@@ -8,6 +8,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap.css">
 
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
+   <link rel="stylesheet" href="<?= base_url(); ?>assets/leaflet/leaflet.css">
+   <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+
       <!-- favicon -->
     <link rel="shorcut icon" href="<?= base_url(); ?>assets/img/icon-layanan/e-laundry1.png">
 
@@ -55,19 +59,7 @@
        
           <?php if ( isset ($this->session->userdata['masuk_in']) ) : ?>
 
-            <li class="nav-item dropdown mr-3">
-              <button class="btn btn-primary dropdown-toggle tombol cek-pesan" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Cek Pemesanan
-              </button>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <h6 class="dropdown-header">Laundry Satuan</h6>
-                <a class="dropdown-item" href="<?= base_url(); ?>Cekpesan1/">Wipe</a>
-                <a class="dropdown-item" href="<?= base_url(); ?>Cekpesan/">Essii</a>
-                <div class="dropdown-divider"></div>
-                <h6 class="dropdown-header">Laundry Kiloan</h6>
-                <a class="dropdown-item" href="<?= base_url(); ?>Cekpesan3/">E-Laundry</a>
-              </div>
-            </li>
+            <a class="nav-item nav-link" href="<?= base_url(); ?>Cekpesan1/">CekPesan</a>
 
 
             <div class="dropdown">

@@ -28,11 +28,10 @@ class Daftar extends CI_Controller
 		$this->form_validation->set_rules('nama', 'Nama', 'required');
 		$this->form_validation->set_rules('username', 'Username', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
-		$this->form_validation->set_rules('konfirmasi_password', 'Konfirmasi Password', 'required|matches[password]');
+		$this->form_validation->set_rules('email', 'Email', 'required');
 		$this->form_validation->set_rules('telepon', 'Telepon', 'required|numeric');
 		$this->form_validation->set_rules('alamat', 'Alamat', 'required');
-		$this->form_validation->set_rules('gambar', 'Gambar', 'required');
-
+ 
 		if( $this->form_validation->run() === FALSE ){
 		$data['judul'] = 'E-Laundry | Daftar';
 		$this->load->view('templates/header', $data);
@@ -41,14 +40,15 @@ class Daftar extends CI_Controller
 		} else {
 			$data = [
 				'nama' => $this->input->post('nama', true),
+				'owner_id' => $this->input->post('owner_id', true),
 				'username' => $this->input->post('username', true),
 				'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-				'konfirmasi_password' => password_hash($this->input->post('konfirmasi_password'), PASSWORD_DEFAULT),
+				'email' => $this->input->post('email'),
 				'telepon' => $this->input->post('telepon', true),
 				'alamat' => $this->input->post('alamat', true),
-				'gambar' => $this->input->post('gambar', true),
+				'image' => $this->input->post('image', true),
 				'is_active' => $this->input->post('is_active', true),
-				'usertype' => $this->input->post('usertype', true)
+				'role_id' => $this->input->post('role_id', true)
 
 			];
 
@@ -146,11 +146,10 @@ class Daftar extends CI_Controller
 
 	public function ubahpassword()
 	{
-		$data['user'] = $this->db->get_where('tb_konsumen', ['username' => $this->session->userdata('username')])->row_array();
+		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
 		$this->form_validation->set_rules('current_password', 'Password Saat Ini', 'required|trim');
-		$this->form_validation->set_rules('new_password1', 'Password Baru', 'required|trim|min_length[3]|matches[new_password2]');
-		$this->form_validation->set_rules('new_password2', 'Konfirmasi Password', 'required|trim|min_length[3]|matches[new_password1]');
+		$this->form_validation->set_rules('new_password1', 'Password Baru', 'required|trim|min_length[3]');
 
 		if ($this->form_validation->run() == false) {
 			$data['judul'] = 'E-Laundry | Ubahpassword';	
@@ -166,22 +165,17 @@ class Daftar extends CI_Controller
                     </div>');
                redirect('daftar/ubahpassword');
             } else {
-                if ($current_password == $new_password) {
-                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-                    Password Tidak Sesuai Dengan Konfirmasi Password
-                    </div>');
-                   redirect('daftar/ubahpassword');
-                } else {
+                
                     $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
 
                     $this->db->set('password', $password_hash);
                     $this->db->where('username', $this->session->userdata('username'));
-                    $this->db->update('tb_konsumen');
+                    $this->db->update('user');
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
                     Password Berhasil Diubah! 
                     </div>');
                     redirect('daftar/ubahpassword');
-                }
+                
             }
 		}
  	

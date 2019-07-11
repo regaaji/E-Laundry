@@ -23,6 +23,7 @@
               </tr>
             </thead>
             <tbody>
+              
               <?php $i = 1; ?>
               <?php foreach( $transaksi as $tr ) : ?>
 
@@ -32,20 +33,18 @@
                     <td><?= $tr['username']; ?></td>
                     <td><?= $tr['tanggal_kirim']; ?></td>
                     <td>
-                      <span class="badge badge-primary"><?= $tr['nama']; ?></span>
+                      <span class="badge badge-primary"><?= $tr['nama_status']; ?></span>
                     </td>
                     <td>
                       <a href="<?= base_url() ?>cekpesan1/coba/<?= $tr['id_transaksi'] ?>"  class="btn btn-warning btn-sm">Detail<i class="fas fa-info-circle pl-2"></i></a>
+                      <?php if($tr['status_id'] == 6 ): ?>
+                        <a href="<?= base_url(); ?>Cekpesan1/metodebayar1/<?= $tr['id_transaksi']; ?>" class="btn btn-sm btn-success"><i class="fas fa-money-bill-wave"></i></a>
+                        <?php else : ?>
+                          <span></span>
+                        <?php endif; ?> 
                     </td>
                   </tr>
-              <p>
-
-                <?php if($tr['status_id'] == 6 ): ?>
-                  <span class="text-danger font-weight-bold">Silahkan melakukan konfirmasi pembayaran</span> <a href="<?= base_url(); ?>Cekpesan1/metodebayar1/<?= $tr['id_transaksi']; ?>" class="btn btn-sm btn-warning"><i class="fas fa-money-bill-wave"></i></a>
-                  <?php else : ?>
-                    <span></span>
-                  <?php endif; ?>  
-                </p>
+              
 
                 <?php else : ?>
                    
@@ -78,6 +77,7 @@
   <div class="card shadow">
     <div class="card-body">
       <h3 class="text-center text-primary mb-4">Cek History</h3>
+          <?= $this->session->flashdata('message'); ?>
           <div class="table-responsive">
             <table class="table-hover table" id="tabel1">
               <thead class="bg-primary text-white">
@@ -101,7 +101,7 @@
                     <td><?= $tr['tanggal_kirim']; ?></td>
                     <td>
                       <?php if($tr['status_id'] == 9) : ?>
-                      <span class="badge badge-primary"><?= $tr['nama']; ?></span>
+                      <span class="badge badge-primary"><?= $tr['nama_status']; ?></span>
                       <?php else : ?>
                         <span class="badge badge-primary"></span>
                     <?php endif; ?>

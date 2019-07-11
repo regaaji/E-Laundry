@@ -8,7 +8,7 @@
     <div class="carousel-item active" data-src="<?= base_url(); ?>assets/img/laundry1.jpg">
       <div class="carousel-caption">
         <h2 class="font-weight-bold animated wobble" style="animation-duration: 1s;">Essii</h2>
-        <!-- <p class="animated wobble" style="animation-duration: 1s;">Jl. Cikajang No. 46</p> -->
+        <p class="animated wobble" style="animation-duration: 1s;">Jl. Cikajang No. 46</p>
       </div>
     </div>
     <div class="carousel-item" data-src="<?= base_url(); ?>assets/img/laundry1a.jpg">

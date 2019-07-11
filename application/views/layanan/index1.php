@@ -110,24 +110,33 @@
                             <small id="emailHelp" class="form-text text-danger"><?= form_error('waktu_kirim'); ?></small>
                         </div>
 
-                        
-                        <input type="hidden" name="lat" id="lat">
-                        <input type="hidden" name="lng" id="lng">
-                        <input type="hidden" name="location" id="location">
 
                         <h2 class="card-title text-primary mt-5">Lokasi Anda</h2>
                         <hr>
-                        <input id="pac-input" class="form-control" type="text" placeholder="Enter a location">
-                        <br><br><br><br><br><br>
-                        <br><br>
-                        <br><br><br><br>
-                        <div id="map" class="img-fluid" style="width: 700px; height: 400px;"></div>
-                        <small id="emailHelp" class="form-text text-danger"><?= form_error('location'); ?></small>
-                        <div id="infowindow-content">
-                            <img src="" width="16" height="16" id="place-icon">
-                            <span id="place-name" class="title"></span><br>
-                            <span id="place-address"></span>
+                      
+                          <input type="hidden" name="lat" class="form-control" id="lat" size=12 value="">
+                          <input type="hidden" name="lng" class="form-control"  id="lon" size=12 value="">
+                          <input type="hidden" name="nama_owner" class="form-control"  value="basic">
+                          <input type="hidden" name="owner_id" class="form-control"  value="3">
+                    
+                        
+
+                     
+                        <div id="search"> 
+                          <div class="input-group">
+                            <input type="text" name="location" class="form-control" value="" id="addr" size="58"  />
+                            <div class="input-group-append">
+                              <button type="button" class="btn btn-primary btn-sm" onclick="addr_search();">Search</button>
+                            </div>
+                          </div>
+                          
+                              <div id="results"></div>
+                            
                         </div>
+
+                        <br />
+
+                        <div id="map" class="img-fluid mt-5" style="width: 700px; height: 400px;"></div>
                        
         </div>
 

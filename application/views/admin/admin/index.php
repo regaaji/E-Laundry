@@ -24,8 +24,9 @@
                       
                     </div>
                     <?php 
+                    
                     foreach ($owner as $ow) {
-                      $nama[] = $ow->nama;
+                      $nama[] = $ow->nama_owner;
                       $harga[] = (int) $ow->harga;
                     }
                     ?>

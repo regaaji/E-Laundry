@@ -41,21 +41,24 @@ class Auth extends CI_Controller
                 if (password_verify($password, $user['password'])) {
                     $data = [
                         'email' => $user['email'],
-                        'role_id' => $user['role_id']
+                        'id' => $user['id'],
+                        'role_id' => $user['role_id'],
+                        'nama' => $user['nama'],
+                        'owner_id' => $user['owner_id']
                     ];
 
                     $this->session->set_userdata($data);
                     if ($user['role_id'] == 1) {
-                
+
                         redirect('admin/admin');
                 
                     } elseif($user['role_id'] == 2) {
-                
-                        redirect('admin/wipe');
+                        //return var_dump($user['role_id']);
+                        redirect('admin/owner');
                 
                     } elseif($user['role_id'] == 3) {
                         //return var_dump($user['role_id']);
-                        redirect('admin/essii');
+                        redirect('admin/user');
                 
                     } else {
 

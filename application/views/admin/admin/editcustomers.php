@@ -9,23 +9,33 @@
 					<form method="post" action="">
 						<input type="hidden" name="id" value="<?= $edit['id']; ?>">
 						<input type="hidden" name="password" value="<?= $edit['password']; ?>">
-						<input type="hidden" name="konfirmasi_password" value="<?= $edit['konfirmasi_password']; ?>">
-						<input type="hidden" name="usertype" value="<?= $edit['usertype']; ?>">
+						<input type="hidden" name="owner_id" value="<?= $edit['owner_id']; ?>">
+						<input type="hidden" name="role_id" value="<?= $edit['role_id']; ?>">
+						<input type="hidden" name="image" value="<?= $edit['image']; ?>">
 						<input type="hidden" name="is_active" value="<?= $edit['is_active']; ?>">
-						<input type="hidden" name="gambar" value="<?= $edit['gambar']; ?>">
+
 						<div class="form-group">
+							<label for="nama">Nama</label>
 							<input type="text" class="form-control" name="nama" value="<?= $edit['nama']; ?>">
 						</div>
 
-						<div class="from-group">	
+						<div class="from-group">
+							<label for="username">Username</label>	
 							<input type="text" class="form-control" name="username" value="<?= $edit['username']; ?>">	
 						</div>
 
+						<div class="from-group mt-3">
+							<label for="email">Email</label>	
+							<input type="text" class="form-control" name="email" value="<?= $edit['email']; ?>">	
+						</div>
+
 						<div class="form-group mt-3">
+							<label for="telepon">Telepon</label>
 							<input type="text" class="form-control" name="telepon" value="<?= $edit['telepon']; ?>">
 						</div>	
 
 						<div class="form-group">
+							<label for="alamat">Alamat</label>
 							<textarea name="alamat" id="" cols="10" rows="3" class="form-control"><?= $edit['alamat']; ?></textarea>
 						</div>		
 						

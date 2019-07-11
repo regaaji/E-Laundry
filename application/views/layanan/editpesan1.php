@@ -9,7 +9,7 @@
             <div class="card-body">
               <div class="alert alert-success mb-3" role="alert">
                <h4 class="alert-heading">Perhatian!</h4>
-                <p>Masukkan Bukti Pembayaran Anda</p>
+                <p>Masukkan Cetak Bukti Pembayaran Anda</p>
                 <hr>
                 <p class="mb-0"></p>
              </div>
@@ -29,23 +29,23 @@
               <input type="hidden" class="form-control waktu_jemput" name="waktu_jemput" id="exampleInputPassword1" value="<?= $transaksi['waktu_jemput']; ?>">
 
 
-              <input type="hidden" class="form-control" name="tanggal_kirim" id="exampleInputPassword1" value="<?= $transaksi['tanggal_kirim']; ?>">
+              <input type="hidden" class="form-control tanggal_kirim1" name="tanggal_kirim" id="exampleInputPassword1" value="<?= $transaksi['tanggal_kirim']; ?>">
 
 
-              <input type="hidden" class="form-control waktu_kirim" name="waktu_kirim" id="exampleInputPassword1" value="<?= $transaksi['waktu_kirim']; ?>">
+              <input type="hidden" class="form-control waktu_kirim" name="waktu_kirim1" id="exampleInputPassword1" value="<?= $transaksi['waktu_kirim']; ?>">
 
 
-              <input type="hidden" class="form-control" name="location" id="exampleInputPassword1" value="<?= $transaksi['location']; ?>">
+              <input type="hidden" class="form-control location1" name="location" id="exampleInputPassword1" value="<?= $transaksi['location']; ?>">
               
-              <input type="hidden" class="form-control" name="lat" id="exampleInputPassword1" value="<?= $transaksi['lat']; ?>">
+              <input type="hidden" class="form-control location1" name="lat" id="exampleInputPassword1" value="<?= $transaksi['lat']; ?>">
 
-                 <input type="hidden" class="form-control" name="lng" id="exampleInputPassword1" value="<?= $transaksi['lng']; ?>">
-
-
-              <input type="hidden" class="form-control" name="harga" id="exampleInputPassword1" value="<?= $transaksi['harga']; ?>">
+                 <input type="hidden" class="form-control location1" name="lng" id="exampleInputPassword1" value="<?= $transaksi['lng']; ?>">
 
 
-              <input type="hidden" class="form-control" name="tipe" id="exampleInputPassword1"  value="Non Tunai">
+              <input type="hidden" class="form-control harga1" name="harga" id="exampleInputPassword1" value="<?= $transaksi['harga']; ?>">
+
+
+              <input type="hidden" class="form-control status1" name="tipe" id="exampleInputPassword1"  value="Non Tunai">
             
 
              <!--  <input type="file" id="kenek" name="bukti1" onchange="return validasiFile()" value="<?= $transaksi['bukti1'];  ?>"> -->

@@ -3,6 +3,39 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Menu_model extends CI_Model
 {
+    public function daftarTampil()
+    {
+        $query = "SELECT * FROM `tbl_produk` INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id_owner ";
+        return $this->db->query($query)->result_array();
+    }
+
+    public function daftarAkun()
+    {
+         $query = "SELECT * FROM `user` WHERE role_id NOT LIKE 1 AND role_id NOT LIKE 3 ";
+        return $this->db->query($query)->result_array();
+    }
+
+     public function OwnerTransaksi()
+    { 
+        $id = $this->session->userdata('owner_id');
+        $query = $this->db->query('SELECT * FROM tbl_transaksi INNER JOIN tbl_status ON tbl_transaksi.status_id = tbl_status.id_status WHERE owner_id = '.$id.'');
+         return $query->result_array();
+    }
+
+    public function namaProdukOwner()
+    {
+        $id = $this->session->userdata('id');
+        $query = $this->db->query('SELECT * FROM `produk` INNER JOIN tbl_status_barang ON produk.status_barang_id = tbl_status_barang.id WHERE status_barang_id = 1 AND user_id = '.$id.'');
+        return $query->result_array();
+    }
+
+      public function namaProdukOwnerGagal()
+    {
+        $id = $this->session->userdata('id');
+        $query = $this->db->query('SELECT * FROM `produk` INNER JOIN tbl_status_barang ON produk.status_barang_id = tbl_status_barang.id WHERE status_barang_id = 2 AND user_id = '.$id.'');
+        return $query->result_array();
+    }
+
     public function produkBasic()
     {
         $query = $this->db->query("SELECT * FROM `tbl_produk` INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id INNER JOIN tbl_status_barang ON tbl_produk.status_barang_id = tbl_status_barang.id  WHERE owner_id = 3 AND status_barang_id = 1");
@@ -17,28 +50,16 @@ class Menu_model extends CI_Model
 
     public function pemilikOwner()
     {
-        $query = "SELECT tbl_owner.id, tbl_owner.nama, tbl_paket.nama_paket FROM `tbl_owner` INNER JOIN tbl_paket ON tbl_owner.paket_id = tbl_paket.id ";
+        $query = "SELECT * FROM `tbl_owner` WHERE nama_owner NOT LIKE 'admin' AND id_owner NOT LIKE 5 ";
         return $this->db->query($query)->result_array();
     }
 
      public function pemilikProduk()
     {
-         $query = $this->db->query("SELECT * FROM `tbl_produk` INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id INNER JOIN tbl_status_barang ON tbl_produk.status_barang_id = tbl_status_barang.id  WHERE owner_id = 1 AND status_barang_id = 3");
+         $query = $this->db->query("SELECT * FROM `produk` INNER JOIN tbl_owner ON produk.owner_id = tbl_owner.id_owner INNER JOIN tbl_status_barang ON produk.status_barang_id = tbl_status_barang.id  WHERE  status_barang_id = 3");
         return $query->result_array();
     }
 
-      public function pemilikProdukEssii()
-    {
-         $query = $this->db->query("SELECT * FROM `tbl_produk` INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id INNER JOIN tbl_status_barang ON tbl_produk.status_barang_id = tbl_status_barang.id  WHERE owner_id = 2 AND status_barang_id = 3");
-        return $query->result_array();
-    }
-
-
-    public function pemilikProdukBasic()
-    {
-         $query = $this->db->query("SELECT * FROM `tbl_produk` INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id INNER JOIN tbl_status_barang ON tbl_produk.status_barang_id = tbl_status_barang.id  WHERE owner_id = 3 AND status_barang_id = 3");
-        return $query->result_array();
-    }
 
     public function getSubMenu()
     {
@@ -52,13 +73,13 @@ class Menu_model extends CI_Model
 
     public function editcustomers($id)
     {
-        return $this->db->get_where('tbl_user', ['id' => $id])->row_array();
+        return $this->db->get_where('user', ['id' => $id])->row_array();
     }
 
     public function allcustomers()
     {
         $query = "SELECT *
-                FROM tbl_user WHERE usertype = 3
+                FROM user WHERE role_id = 3
         ";
 
         return $this->db->query($query)->result_array();
@@ -67,7 +88,13 @@ class Menu_model extends CI_Model
 
      public function editproduk($id_produk)
     {
-        return $this->db->get_where('tbl_produk', ['id_produk' => $id_produk])->row_array();
+        return $this->db->get_where('produk', ['id_produk' => $id_produk])->row_array();
+    }
+
+
+      public function editLaundry($id_owner)
+    {
+        return $this->db->get_where('tbl_owner', ['id_owner' => $id_owner])->row_array();
     }
 
 
@@ -108,7 +135,7 @@ class Menu_model extends CI_Model
 
       public function editbarangwipe($id_produk)
     {
-        return $this->db->get_where('tbl_produk', ['id_produk' => $id_produk])->row_array();
+        return $this->db->get_where('produk', ['id_produk' => $id_produk])->row_array();
     }
 
     public function editbarangbasic($id_produk)
@@ -125,41 +152,15 @@ class Menu_model extends CI_Model
 
     public function getCountCustomers()
     {
-        $query = $this->db->query("SELECT * FROM tbl_user WHERE usertype = 3");
+        $query = $this->db->query("SELECT * FROM user WHERE role_id = 3");
         $total = $query->num_rows();
         return $total;
     }
 
-      public function getCountWipe()
+
+     public function transaksiWipeGagal()
     {
-        $query = $this->db->query("SELECT * FROM `tbl_produk` WHERE owner_id = 1 AND status_barang_id = 1");
-        $total = $query->num_rows();
-        return $total;
-    }
-
-    public function getCountWipeGagal()
-    {
-        $query = $this->db->query("SELECT * FROM `tbl_produk` WHERE owner_id = 1 AND status_barang_id = 2");
-        $total = $query->num_rows();
-        return $total;
-    }
-
-    function transaksiWipe(){
-        // $query = $this->db->query("SELECT * FROM `tbl_produk` INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id ");
-        $query = $this->db->query("SELECT * FROM `tbl_produk` INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id INNER JOIN tbl_status_barang ON tbl_produk.status_barang_id = tbl_status_barang.id  WHERE owner_id = 1 AND status_barang_id = 1");
-        return $query->result_array();
-    }
-
-
-    public function transaksiWipeGagal()
-    {
-         $query = $this->db->query("SELECT * FROM `tbl_produk` INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id INNER JOIN tbl_status_barang ON tbl_produk.status_barang_id = tbl_status_barang.id  WHERE owner_id = 1 AND status_barang_id = 2");
-        return $query->result_array();
-    }
-
-     public function transaksiEssiiGagal()
-    {
-         $query = $this->db->query("SELECT * FROM `tbl_produk` INNER JOIN tbl_owner ON tbl_produk.owner_id = tbl_owner.id INNER JOIN tbl_status_barang ON tbl_produk.status_barang_id = tbl_status_barang.id  WHERE owner_id = 2 AND status_barang_id = 2");
+         $query = $this->db->query("SELECT * FROM `produk` INNER JOIN tbl_owner ON produk.owner_id = tbl_owner.id_owner INNER JOIN tbl_status_barang ON produk.status_barang_id = tbl_status_barang.id  WHERE status_barang_id = 2");
         return $query->result_array();
     }
 
@@ -204,7 +205,7 @@ class Menu_model extends CI_Model
 
       public function getCountTransaksi()
     {
-        $query = $this->db->query("SELECT a.`id`, a.`nama`, SUM(b.`harga`) AS `harga` FROM tbl_owner a INNER JOIN tbl_transaksi b ON a.`id`=b.`owner_id` GROUP BY a.`id`, a.`nama` ");
+        $query = $this->db->query("SELECT a.`id_owner`, a.`nama_owner`, SUM(b.`harga`) AS `harga` FROM tbl_owner a INNER JOIN tbl_transaksi b ON a.`id_owner`=b.`owner_id` GROUP BY a.`id_owner`, a.`nama_owner` ");
        // if($query->num_rows() > 0){
        //      foreach($query->result() as $data){
        //          $hasil[] = $data;
@@ -216,7 +217,7 @@ class Menu_model extends CI_Model
 
     public function getCountOwner()
     {
-         $query = $this->db->query("SELECT a.`id`, a.`nama`, SUM(b.`harga`) AS `harga` FROM tbl_owner a INNER JOIN tbl_transaksi b ON a.`id`=b.`owner_id` GROUP BY a.`id`, a.`nama` ");
+         $query = $this->db->query("SELECT a.`id_owner`, a.`nama_owner`, SUM(b.`harga`) AS `harga` FROM tbl_owner a INNER JOIN tbl_transaksi b ON a.`id_owner`=b.`owner_id` GROUP BY a.`id_owner`, a.`nama_owner` ");
        if($query->num_rows() > 0){
             foreach($query->result() as $owner){
                 $hasil[] = $owner;
@@ -242,18 +243,6 @@ class Menu_model extends CI_Model
         return $total;
     }
 
-    public function getCountTransaksiWipe()
-    {
-        $query = $this->db->query("SELECT * FROM tbl_transaksi WHERE owner_id = 1");
-        $total = $query->num_rows();
-        return $total;
-    }
-
-    public function WipeTransaksi()
-    {
-        $query = $this->db->query("SELECT * FROM tbl_transaksi INNER JOIN tbl_user ON tbl_transaksi.user_id = tbl_user.id INNER JOIN tbl_status ON tbl_transaksi.status_id = tbl_status.id WHERE owner_id = 1");
-         return $query->result_array();
-    }
 
 
     public function EssiiTransaksi()
@@ -335,19 +324,61 @@ class Menu_model extends CI_Model
     }
 
 
+    //ubah owner laundry
+    public function updatelaundry($id_owner, $filename)
+    {
+         $data = [
+            "nama_owner" => $this->input->post('nama_owner', true),
+            "isi" => $this->input->post('isi', true),
+            "gambar_produk" => $filename
+            
+        ];
+
+        $this->db->where('id_owner', $this->input->post('id_owner', true));
+        $this->db->update('tbl_owner', $data);
+    }
+
+
+    public function ubahlaundry()
+    {
+        $data = [
+            "nama_owner" => $this->input->post('nama_owner', true),
+            "isi" => $this->input->post('isi', true)
+        ];  
+
+        $this->db->where('id_owner', $this->input->post('id_owner',$id_owner));
+        $this->db->update('tbl_owner', $data);
+    }
+
+
     // tambah wipe
       public function addbarangwipe($filename)
     {
         $data = [
-            "nama_produk" => $this->input->post('nama_produk', true),
+            "nama" => $this->input->post('nama', true),
             "harga" => $this->input->post('harga', true),
             "gambar" => $filename,
             "owner_id" => $this->input->post('owner_id', true),  
-            "status_barang_id" => $this->input->post('status_barang_id', true)
+            "status_barang_id" => $this->input->post('status_barang_id', true),
+            "user_id" => $this->input->post('user_id', true)
             
         ];
 
-        $this->db->insert('tbl_produk', $data);
+        $this->db->insert('produk', $data);
+    }
+
+
+
+      public function addLaundry($filename)
+    {
+        $data = [
+            "nama_owner" => $this->input->post('nama_owner', true),
+            "isi" => $this->input->post('isi', true),
+            "gambar_produk" => $filename
+            
+        ];
+
+        $this->db->insert('tbl_owner', $data);
     }
 
     
@@ -355,7 +386,7 @@ class Menu_model extends CI_Model
     public function updatebarangwipe($id_produk, $filename)
     {
         $data = [
-            "nama_produk" => $this->input->post('nama_produk', true),
+            "nama" => $this->input->post('nama', true),
             "harga" => $this->input->post('harga', true),
             "gambar" => $filename,
             "owner_id" => $this->input->post('owner_id', true),  
@@ -364,21 +395,21 @@ class Menu_model extends CI_Model
         ];
 
         $this->db->where('id_produk', $this->input->post('id_produk', true));
-        $this->db->update('tbl_produk', $data);
+        $this->db->update('produk', $data);
     }
 
 
     public function ubahDataBarangwipe()
     {
         $data = [
-            "nama_produk" => $this->input->post('nama_produk', true),
+            "nama" => $this->input->post('nama', true),
             "harga" => $this->input->post('harga', true),
             "owner_id" => $this->input->post('owner_id', true),
             "status_barang_id" => $this->input->post('status_barang_id', true)
         ];  
 
         $this->db->where('id_produk', $this->input->post('id_produk',$id));
-        $this->db->update('tbl_produk', $data);
+        $this->db->update('produk', $data);
     }
 
 

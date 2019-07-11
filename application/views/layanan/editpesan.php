@@ -9,7 +9,7 @@
             <div class="card-body">
               <div class="alert alert-success mb-3" role="alert">
                <h4 class="alert-heading">Perhatian!</h4>
-                <p>Masukkan Bukti Pembayaran Anda</p>
+                <p>Masukkan Cetak Bukti Pembayaran Anda</p>
                 <hr>
                 <p class="mb-0"></p>
              </div>
@@ -35,6 +35,9 @@
 
 
               <input type="hidden" class="form-control location" name="location" id="exampleInputPassword1" value="<?= $transaksi['location']; ?>">
+
+
+              <input type="hidden" class="form-control alamat" name="alamat" id="exampleInputPassword1" value="<?= $transaksi['alamat']; ?>">
 
 
               <input type="hidden" class="form-control harga" name="harga" id="exampleInputPassword1" value="<?= $transaksi['harga']; ?>">
